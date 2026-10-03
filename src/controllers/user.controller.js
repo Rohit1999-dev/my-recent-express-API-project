@@ -99,16 +99,9 @@ const createUser = async (req, res, next) => {
         // generate a hash password for the newly created user
 
         const hashPassword = await hashPasswordCreate(Password);
-
-        const sql = `INSERT INTO user_details (Name, Email, Password) VALUES (?, ?, ?)`;
-        const [result] = await db.query(sql, [Name, Email, hashPassword]);
-
-        // generate a token for the newly created user
-        // const token = generateToken({
-        //     id: result.insertId,
-        //     name: Name,
-        //     email: Email
-        // });
+        // console.log(hashPassword);
+        
+        const [result] = await db.query(`call newUserRegistration(?,?,?)`, [Name, Email, hashPassword]);
 
         res.send({
             message: `User signup created successfully!`,
