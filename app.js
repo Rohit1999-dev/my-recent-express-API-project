@@ -2,7 +2,6 @@
 var express = require('express');
 // const rateLimit = require("express-rate-limit");
 
-var db = require('./src/config/db.js');
 var userRoutes = require('./src/routes/user.js');
 var errorHandlerRoutes = require('./src/utils/errorHandler.js');
 var app = express();

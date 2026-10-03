@@ -47,8 +47,8 @@ const getAllUsers = async (req, res, next) => {
     try {
         console.log(`getAllUser controller bind 13 !`);
         
-        const sql = `SELECT * FROM user_details`;
-        const [rowData] = await db.query(sql);
+        // const sql = `SELECT * FROM user_details`;
+        const [rowData] = await db.query(`CALL getUserList()`);
         if (!rowData.length) {
 
             const error = new Error ("No users found");
