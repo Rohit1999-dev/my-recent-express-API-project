@@ -129,8 +129,6 @@ const userLogin = async (req, res, next) => {
 
         const [users] = await userService.getUserDetailsByEmail(operation, Email);
 
-        // const [users] = await db.query(`call getUserList(?,?)`, [operation, Email]);
-
         if (users[0].length === 0) {
 
             const error = new Error(`user not exist in database !`);
