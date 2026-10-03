@@ -12,7 +12,14 @@ const isEmailAlreadyExist = async (operation, Email) => {
     return [existingUser];
 }
 
+const getUserDetailsByEmail = async(operation, Email)=>{
+
+    const [users] = await db.query(`call getUserList(?,?)`, [operation, Email]);
+    return [users];
+}
+
 module.exports = {
     getUserDetails,
-    isEmailAlreadyExist
+    isEmailAlreadyExist,
+    getUserDetailsByEmail
 }

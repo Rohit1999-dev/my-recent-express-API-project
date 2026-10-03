@@ -127,7 +127,9 @@ const userLogin = async (req, res, next) => {
 
         const { Email, Password } = req.body;
 
-        const [users] = await db.query(`call getUserList(?,?)`, [operation, Email]);
+        const [users] = await userService.getUserDetailsByEmail(operation, Email);
+
+        // const [users] = await db.query(`call getUserList(?,?)`, [operation, Email]);
 
         if (users[0].length === 0) {
 
