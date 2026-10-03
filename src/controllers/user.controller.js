@@ -47,9 +47,9 @@ const getAllUsers = async (req, res, next) => {
     try {
         console.log(`getAllUser controller bind 13 !`);
 
-        var apiEvent = `getAllUserList`;
+        const operation = `USER_GET_ALL`;
         
-        const [rowData] = await db.query(`CALL getUserList(?,?)`, [apiEvent, '']);
+        const [rowData] = await db.query(`CALL getUserList(?,?)`, [operation, '']);
         if (!rowData[0].length) {
 
             const error = new Error ("No users found");
@@ -73,7 +73,7 @@ const getAllUsers = async (req, res, next) => {
 const createUser = async (req, res, next) => {
     try {
        
-        var apiEvent = `existingEmailCheck`;
+        var operation = `USER_CHECK_EMAIL`;
 
         const { Name, Email, Password } = req.body;
 
@@ -85,7 +85,7 @@ const createUser = async (req, res, next) => {
         }
 
         // Check if email already exists
-        const [existingUser] = await db.query(`call getUserList(?,?)`,[apiEvent, Email]);
+        const [existingUser] = await db.query(`call getUserList(?,?)`,[operation, Email]);
 
         if ((existingUser[0][0] || {}).in_ExistingUserId > 0) {
             console.log(`Email already exists! `);
@@ -120,11 +120,11 @@ const userLogin = async (req, res, next) => {
 
     try {
 
-        var apiEvent = `extractUserInformation`; 
+        var operation = `USER_GET_INFORMATION`; 
 
         const { Email, Password } = req.body;
 
-        const [users] = await db.query(`call getUserList(?,?)`, [apiEvent, Email]);
+        const [users] = await db.query(`call getUserList(?,?)`, [operation, Email]);
 
         if (users[0].length === 0) {
 
