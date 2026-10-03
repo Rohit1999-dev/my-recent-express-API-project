@@ -1,5 +1,7 @@
 node_modules
 .env
 .dockerignore
-.yml
+compose.yml
+deployment.yml
+service.yml
 Dockerfile
