@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { generateToken } = require('../utils/jwt');
+const userService = require('../services/userService');
 const { hashPasswordCreate, hashPasswordVerification } = require('../utils/hashpassword');
 const db = require("../config/db");
 
@@ -48,8 +49,9 @@ const getAllUsers = async (req, res, next) => {
         console.log(`getAllUser controller bind 13 !`);
 
         const operation = `USER_GET_ALL`;
+
+        const [rowData] = await userService.getUserDetails(operation);
         
-        const [rowData] = await db.query(`CALL getUserList(?,?)`, [operation, '']);
         if (!rowData[0].length) {
 
             const error = new Error ("No users found");
@@ -85,7 +87,8 @@ const createUser = async (req, res, next) => {
         }
 
         // Check if email already exists
-        const [existingUser] = await db.query(`call getUserList(?,?)`,[operation, Email]);
+
+        const [existingUser] = await userService.isEmailAlreadyExist(operation, Email);
 
         if ((existingUser[0][0] || {}).in_ExistingUserId > 0) {
             console.log(`Email already exists! `);
