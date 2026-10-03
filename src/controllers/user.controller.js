@@ -73,7 +73,7 @@ const getAllUsers = async (req, res, next) => {
 const createUser = async (req, res, next) => {
     try {
        
-        var apiEvent = `existingUser`;
+        var apiEvent = `existingUserCheck`;
 
         const { Name, Email, Password } = req.body;
 
