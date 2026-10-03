@@ -9,8 +9,9 @@ const connection = mysql.createPool({
     password: process.env.DB_PASSWORD || "",
     database: process.env.DB_NAME || "node_project",
     port: Number(process.env.DB_PORT || 3306),
-    connectionLimit: 10,
-    connectTimeout: 10000
+    connectTimeout: 10000,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0,
 });
 
 const waitForDatabase = async () => {
@@ -31,8 +32,12 @@ const waitForDatabase = async () => {
     }
 };
 
-waitForDatabase().catch((err) => {
-    console.error("MySQL connection failed after retries:", err.message);
-});
-
+waitForDatabase()
+    .then(() => {
+        console.log("Database is ready");
+    })
+    .catch((error) => {
+        console.error("MySQL failed after retries:", error.message);
+        process.exit(1);
+    });
 module.exports = connection;
