@@ -46,10 +46,11 @@ const getAllUsers = async (req, res, next) => {
     
     try {
         console.log(`getAllUser controller bind 13 !`);
+
+        var apiEvent = `getAllUserList`;
         
-        // const sql = `SELECT * FROM user_details`;
-        const [rowData] = await db.query(`CALL getUserList()`);
-        if (!rowData.length) {
+        const [rowData] = await db.query(`CALL getUserList(?,?)`, [apiEvent, '']);
+        if (!rowData[0].length) {
 
             const error = new Error ("No users found");
             error.statusCode = 404;
@@ -72,6 +73,8 @@ const getAllUsers = async (req, res, next) => {
 const createUser = async (req, res, next) => {
     try {
        
+        var apiEvent = `existingUser`;
+
         const { Name, Email, Password } = req.body;
 
         if (!Name || !Email || !Password) {
@@ -82,12 +85,9 @@ const createUser = async (req, res, next) => {
         }
 
         // Check if email already exists
-        const [existingUser] = await db.query(
-            `SELECT id FROM user_details WHERE Email = ?`,
-            [Email]
-        );
+        const [existingUser] = await db.query(`call getUserList(?,?)`,[apiEvent, Email]);
 
-        if (existingUser.length > 0) {
+        if ((existingUser[0][0] || {}).in_ExistingUserId > 0) {
             console.log(`Email already exists! `);
 
             const error = new Error (`Email already exists! `);
@@ -117,13 +117,16 @@ const createUser = async (req, res, next) => {
 };
 
 const userLogin = async (req, res, next) => {
+
     try {
+
+        var apiEvent = `extractUserInformation`; 
 
         const { Email, Password } = req.body;
 
-        const [users] = await db.query(`SELECT * FROM user_details WHERE Email = ?`, [Email]);
+        const [users] = await db.query(`call getUserList(?,?)`, [apiEvent, Email]);
 
-        if (users.length === 0) {
+        if (users[0].length === 0) {
 
             const error = new Error(`user not exist in database !`);
             error.statusCode = 400;
@@ -131,7 +134,12 @@ const userLogin = async (req, res, next) => {
 
         }
 
-        const user = users[0];
+        const userSavePassword = users[0][0].Password;
+        var userExistingId = users[0][0].id;
+        var userExistingName = users[0][0].Name;
+        var userExistingEmail = users[0][0].Email;
+
+        // var fetchSavePassword = user;
 
         if (!Email || !Password) {
 
@@ -143,23 +151,23 @@ const userLogin = async (req, res, next) => {
 
         // verify hashpassword here and login in app
 
-        const isValidPassword = await hashPasswordVerification(Password, user.Password);
+        const isValidPassword = await hashPasswordVerification(Password, userSavePassword);
 
         const token = generateToken({
-            id: user.id,
-            name: user.Name,
-            email: user.Email
+            id: userExistingId,
+            name: userExistingName,
+            email: userExistingEmail
         });
 
-        if (isValidPassword && user.Email === Email) {
+        if (isValidPassword && userExistingEmail === Email) {
             console.log(` logedIn successfully !`);
             return res.status(200).json({
                 message: "Login successful.",
                 token,
                 user: {
-                    id: user.id,
-                    name: user.Name,
-                    email: user.Email
+                    id: userExistingId,
+                    name: userExistingName,
+                    email: userExistingEmail
                 }
             });
         }
