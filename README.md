@@ -1,8 +1,8 @@
-My Recent Express API
+*My Recent Express API*
 
 A backend REST API built with Node.js and Express.js. This project provides user-related API functionality with database integration, password hashing, JWT authentication, and centralized error handling.
 
-Features
+*Features*
 
 RESTful API using Express.js
 
@@ -20,7 +20,7 @@ Environment variable support
 
 Organized project structure
 
-Tech Stack
+*Tech Stack*
 
 Node.js
 
@@ -36,30 +36,7 @@ bcrypt
 
 Git & GitHub
 
-Project Structure
-backendApi/
-│
-├── src/
-│   ├── config/
-│   │   └── db.js
-│   │
-│   ├── controllers/
-│   │   └── user.controller.js
-│   │
-│   ├── routes/
-│   │   └── user.js
-│   │
-│   └── utils/
-│       ├── errorHandler.js
-│       ├── hashpassword.js
-│       └── jwt.js
-│
-├── package.json
-├── package-lock.json
-├── service.yml
-└── README.md
-
-Installation
+*Installation*
 
 Clone the repository:
 
@@ -75,7 +52,7 @@ Install dependencies:
 
 npm install
 
-Environment Variables
+*Environment Variables*
 
 Create a .env file in the root directory of the project.
 
@@ -91,7 +68,7 @@ JWT_SECRET=your_jwt_secret
 
 Replace the values with your actual configuration.
 
-Running the Application
+*Running the Application*
 
 Start the application with:
 
