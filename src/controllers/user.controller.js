@@ -104,7 +104,7 @@ const createUser = async (req, res, next) => {
         const hashPassword = await hashPasswordCreate(Password);
         // console.log(hashPassword);
         
-        const [result] = await db.query(`call newUserRegistration(?,?,?)`, [Name, Email, hashPassword]);
+        const [result] = await userService.createNewUser(Name, Email, hashPassword);
 
         res.send({
             message: `User signup created successfully!`,

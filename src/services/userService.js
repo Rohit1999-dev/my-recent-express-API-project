@@ -18,8 +18,14 @@ const getUserDetailsByEmail = async(operation, Email)=>{
     return [users];
 }
 
+const createNewUser = async(Name, Email, hashPassword)=>{
+    const [result] = await db.query(`call newUserRegistration(?,?,?)`, [Name, Email, hashPassword]);
+    return [result];
+}
+
 module.exports = {
     getUserDetails,
     isEmailAlreadyExist,
-    getUserDetailsByEmail
+    getUserDetailsByEmail,
+    createNewUser
 }
