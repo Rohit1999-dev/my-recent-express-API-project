@@ -4,6 +4,7 @@ var express = require('express');
 
 var userRoutes = require('./src/routes/user.js');
 var taskRoutes = require('./src/routes/task.js');
+var donationRoutes = require('./src/routes/donation.js');
 var errorHandlerRoutes = require('./src/utils/errorHandler.js');
 var app = express();
 
@@ -28,6 +29,7 @@ app.use((req, res, next)=>{
 
 app.use('/api', userRoutes);
 app.use('/api', taskRoutes);
+app.use('/api', donationRoutes);
 app.use(errorHandlerRoutes);
 
 

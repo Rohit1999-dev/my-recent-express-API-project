@@ -1,8 +1,5 @@
 require("dotenv").config();
 const taskService = require('../services/taskService');
-// const db = require("../config/db");
-// const { param } = require("../routes/task");
-
 
 const createTask = async (req, res, next) => {
     try {
