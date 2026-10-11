@@ -23,6 +23,17 @@ const getAllDonation = async (req, res, next) => {
             })
         }
 
+        const { startDate, endDate } = req.query;
+
+        if(startDate.trim() !== '' && endDate.trim() !== ''){
+
+            const [resultData] = await donationService.getDonationListByDateFilter(startDate, endDate);
+            return res.send({
+                stausCode: 200,
+                data: resultData
+            })
+        }
+
         var [resultData] = await donationService.getDonationData();
         if (resultData.length == 0) {
             return res.send({

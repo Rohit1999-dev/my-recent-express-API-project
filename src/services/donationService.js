@@ -22,9 +22,15 @@ const getDonationCurrencyByParams = async (currency) => {
     return [result];
 }
 
+const getDonationListByDateFilter = async (startDate, endDate) => {
+    const [result] = await db.query("select * from donation_data where Date BETWEEN ? and ? ", [startDate, endDate]); 
+    return [result];
+}
+
 module.exports = {
     getDonationData,
     getDonationByGivenId,
     getDonationDataByNonProfitParams,
-    getDonationCurrencyByParams
+    getDonationCurrencyByParams,
+    getDonationListByDateFilter
 }
