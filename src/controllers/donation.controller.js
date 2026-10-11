@@ -5,14 +5,23 @@ const donationService = require('../services/donationService');
 const getAllDonation = async (req, res, next) => {
     try {
 
-       const nonprofit =  (req.query.nonprofit || '');
-       if(nonprofit.trim() !== ''){
+        const nonprofit = (req.query.nonprofit || '');
+        if (nonprofit.trim() !== '') {
             var [resultData] = await donationService.getDonationDataByNonProfitParams(nonprofit);
             return res.send({
                 stausCode: 200,
                 data: resultData
             })
-       }
+        }
+
+        const currency = (req.query.Donation_Currency || '');
+        if(currency.trim() !== ''){
+            var [resultData] = await donationService.getDonationCurrencyByParams(currency);
+            return res.send({
+                stausCode: 200,
+                data: resultData
+            })
+        }
 
         var [resultData] = await donationService.getDonationData();
         if (resultData.length == 0) {

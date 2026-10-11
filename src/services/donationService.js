@@ -17,8 +17,14 @@ const getDonationDataByNonProfitParams = async (nonprofit) => {
     return [result];
 }
 
+const getDonationCurrencyByParams = async (currency) => {
+    const [result] = await db.query("select * from donation_data where Donation_Currency = ?", [currency]); 
+    return [result];
+}
+
 module.exports = {
     getDonationData,
     getDonationByGivenId,
-    getDonationDataByNonProfitParams
+    getDonationDataByNonProfitParams,
+    getDonationCurrencyByParams
 }
