@@ -49,7 +49,9 @@ const getAllDonation = async (req, res, next) => {
 
     } catch (error) {
         console.log(`Error in getAllDonation function ! `, error);
-
+        const newError = new Error(`Error in getAllDonation function ! `);
+            newError.statusCode = 500;
+        return next(newError);
     }
 }
 
@@ -71,6 +73,9 @@ const getDonationById = async (req, res, next) => {
         });
     } catch (error) {
         console.log(`Error in getDonationById function ! `, error);
+        const newError = new Error(`Error in getDonationById function ! `);
+            newError.statusCode = 500;
+        return next(newError);
 
     }
 
