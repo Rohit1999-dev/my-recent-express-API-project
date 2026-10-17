@@ -27,10 +27,16 @@ const getDonationListByDateFilter = async (startDate, endDate) => {
     return [result];
 }
 
+const getDonationSummary = async () => {
+    const [result] = await db.query("call getDonationSummaryDetails()", []); 
+    return [result];
+}
+
 module.exports = {
     getDonationData,
     getDonationByGivenId,
     getDonationDataByNonProfitParams,
     getDonationCurrencyByParams,
-    getDonationListByDateFilter
+    getDonationListByDateFilter,
+    getDonationSummary
 }

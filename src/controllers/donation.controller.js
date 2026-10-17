@@ -81,7 +81,37 @@ const getDonationById = async (req, res, next) => {
 
 }
 
+const getDonationSummaryDetails = async (req, res, next) => {
+    try {
+        const donationSummary = {};
+        const [result] = await donationService.getDonationSummary();
+        if(!result.length){
+            return res.send({
+                statusCode: 404,
+                message: `No SummaryDetails Found  !`
+            });
+        }
+        donationSummary.totalDonationAmount = result[0][0].in_totalTransactions ;
+        donationSummary.totalTransactions = result[0][0].in_totalDonationAmount;
+        donationSummary.totalFee = result[0][0].in_totalFee;
+
+        donationSummary.donationsByCurrency = result[1];
+
+        return res.send({
+                stausCode: 200,
+                summary: donationSummary
+            })
+        
+    } catch (error) {
+        console.log(`Error in getDonationSummaryDetails function ! `, error);
+        const newError = new Error(`Error in getDonationSummaryDetails function ! `);
+            newError.statusCode = 500;
+        return next(newError);
+    }
+}
+
 module.exports = {
     getAllDonation,
-    getDonationById
+    getDonationById,
+    getDonationSummaryDetails
 }
