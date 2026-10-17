@@ -32,11 +32,23 @@ const getDonationSummary = async () => {
     return [result];
 }
 
+const getCheckForExistingOrder = async (OrderId) => {
+    const [result] = await db.query("select * from donation_data where OrderId = ? ", [OrderId]);
+    return [result];
+}
+
+const createDonation = async (operation, Date, OrderId, Nonprofit, Donation_Currency, Donation_Amount, Fee) => {
+    const [result] = await db.query("call createTaskForNewDonation(?,?,?,?,?,?,?)", [operation, Date, OrderId, Nonprofit, Donation_Currency, Donation_Amount, Fee]);
+    return [result];
+}
+
 module.exports = {
     getDonationData,
     getDonationByGivenId,
     getDonationDataByNonProfitParams,
     getDonationCurrencyByParams,
     getDonationListByDateFilter,
-    getDonationSummary
+    getDonationSummary,
+    getCheckForExistingOrder,
+    createDonation
 }

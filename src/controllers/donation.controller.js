@@ -110,8 +110,54 @@ const getDonationSummaryDetails = async (req, res, next) => {
     }
 }
 
+const createDonationTask = async (req, res, next) => {
+    try {
+        const {
+            Date,
+            OrderId,
+            Nonprofit,
+            Donation_Currency,
+            Donation_Amount,
+            Fee
+        } = req.body;
+
+        const operation = 'CREATE_NEW_TASK';
+
+        if (!Date || !OrderId || !Nonprofit || !Donation_Currency || !Donation_Amount || !Fee) {
+
+            const error = new Error(`All fields are required! `);
+            error.statusCode = 400;
+            return next(error);
+        }
+
+        const existingOrderId = await donationService.getCheckForExistingOrder(OrderId);
+
+        if (existingOrderId[0].length > 0) {
+
+            const error = new Error(`orderId Already exist in list !`);
+            error.statusCode = 409;
+            return next(error);
+        }
+
+        const newTask = await donationService.createDonation(operation, Date, OrderId, Nonprofit, Donation_Currency, Donation_Amount, Fee);
+        if(newTask[0][0][0].id > 0){
+            return res.send({
+                stausCode: 200,
+                success: true,
+                message: "Task created successfully for createDonationTask !",
+            }); 
+        }
+    } catch (error) {
+        console.log(`Error in createDonationTask function ! `, error);
+        const newError = new Error(`Error in createDonationTask function ! `);
+            newError.statusCode = 500;
+        return next(newError);
+    }
+}
+
 module.exports = {
     getAllDonation,
     getDonationById,
-    getDonationSummaryDetails
+    getDonationSummaryDetails,
+    createDonationTask
 }
