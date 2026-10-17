@@ -37,8 +37,18 @@ const getCheckForExistingOrder = async (OrderId) => {
     return [result];
 }
 
-const createDonation = async (operation, Date, OrderId, Nonprofit, Donation_Currency, Donation_Amount, Fee) => {
-    const [result] = await db.query("call createTaskForNewDonation(?,?,?,?,?,?,?)", [operation, Date, OrderId, Nonprofit, Donation_Currency, Donation_Amount, Fee]);
+const createDonation = async (operation, Date, OrderId, Nonprofit, Donation_Currency, Donation_Amount, Fee, _id = 0) => {
+    const [result] = await db.query("call createTaskForNewDonation(?,?,?,?,?,?,?,?)", [operation, Date, OrderId, Nonprofit, Donation_Currency, Donation_Amount, Fee, _id]);
+    return [result];
+}
+
+const getCheckForExistingId = async (_id) => {
+    const [result] = await db.query("select * from donation_data where id = ? ", [_id]);
+    return [result];
+}
+
+const updateTaskByIdParam = async (operation, Date, OrderId, Nonprofit, Donation_Currency, Donation_Amount, Fee, _id) => {
+    const [result] = await db.query("call createTaskForNewDonation(?,?,?,?,?,?,?,?)", [operation, Date, OrderId, Nonprofit, Donation_Currency, Donation_Amount, Fee, _id]);
     return [result];
 }
 
@@ -50,5 +60,7 @@ module.exports = {
     getDonationListByDateFilter,
     getDonationSummary,
     getCheckForExistingOrder,
-    createDonation
+    createDonation,
+    getCheckForExistingId,
+    updateTaskByIdParam
 }

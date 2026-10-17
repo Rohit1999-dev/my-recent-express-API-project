@@ -7,6 +7,7 @@ const donationController = require('../controllers/donation.controller');
 router.get('/donations', donationController.getAllDonation);
 router.post('/donations', donationController.createDonationTask);
 router.get('/donations/summary', donationController.getDonationSummaryDetails);
+router.put('/donations/:id', donationController.updateDonationTask);
 router.get('/donations/:id', donationController.getDonationById);
 
 
